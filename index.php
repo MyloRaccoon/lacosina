@@ -7,6 +7,9 @@ require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Models'.DIRE
 require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'header.php');
 
 
+require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'recettesController.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'contactController.php');
+
 if (isset($_GET['c'])) {
     $controller = $_GET['c'];
 } else {
@@ -19,22 +22,32 @@ switch ($controller) {
         // Exécution du contrôleur de l'accueil
         require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'homeController.php'); // Appel à la fonction du contrôleur
         break;
-    case 'contact':
-        // Exécution du contrôleur du contact
-        require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'contactController.php'); // Appel à la fonction du contrôleur
-        break;
     case 'ajout':
-        // Exécution du contrôleur du ajout
-        require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'ajoutController.php'); // Appel à la fonction du contrôleur
+        $recetteController = new recettesController();
+        $recetteController->ajouter();
         break;
-    case 'enregistrer':
-        // Exécution du contrôleur du enregistrer
-        require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'enregistrerController.php'); // Appel à la fonction du contrôleur
+    case 'enregistrer': 
+        $recetteController = new recettesController();
+        $recetteController->enregistrer($pdo);
         break;
+    case 'recette':
+        $recetteController = new recettesController();
+        $recetteController->lister($pdo);
+        break;
+    case 'contact':
+        $contactController = new ContactController();
+        $contactController->contact();
+        break;
+    case 'envoyer':
+        $contactController = new ContactController();
+        $contactController->enregistrer($pdo);
+        break;
+    case 'detail':
+        $recetteController = new recettesController();
+        $recetteController->detail($pdo, $_GET['id']);
     default:
-        echo "Contrôleur non trouvé.";
+        echo "Contrôleur $controller non trouvé.";
         break;
 }
-
 // ajout du pied de page
 require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'footer.php');
