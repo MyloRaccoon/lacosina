@@ -1,4 +1,19 @@
-<h1><?php echo $recipe['titre']; ?></h1>
-<p><?php echo $recipe['description']; ?></p>
-Auteur : <a href="mailto:<?php echo $recipe['auteur']; ?>"><?php echo $recipe['auteur']; ?></a>
-<a href="?page=liste" class="btn btn-primary">Retour à la liste</a>
+<main>
+  <h1><?= $recipe['titre'] ?></h1>
+
+  <!-- two cols -->
+  <div class="row">
+    <div class="col-6">
+      <img src="upload/<?= $recipe['image'] ?? "no_image.png" ?>" alt="<?= $recipe['titre'] ?>" class="img-fluid">
+      <a href='?c=recette' class="btn btn-primary mt-4">Retour à la liste des recettes</a>
+      <a href="/?c=modif&id=<?= $recipe['id'] ?>" class="btn btn-primary mt-4">Modifier la recette</a>
+    </div>
+    <div class="col-6">
+      <p><?= $recipe['description'] ?></p>
+      <p>
+        Auteur : <a href="mailto:<?= $recipe['auteur'] ?>">
+          <?= $recipe['auteur'] ?>
+        </a>
+      </p>
+    </div>
+</main>

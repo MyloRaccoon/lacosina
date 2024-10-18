@@ -9,6 +9,8 @@ class recettesController {
         $titre = isset($_POST['titre']) ? $_POST['titre'] : '';
         $description = isset($_POST['description']) ? $_POST['description'] : '';
         $auteur = isset($_POST['auteur']) ? $_POST['auteur'] : '';
+        
+        $image = $_FILES['image'] ?? null;
 
         $requete = $pdo ->prepare('INSERT INTO recettes(titre, description, auteur, date_creation) VALUES (:titre, :description, :auteur, NOW())');
         $requete -> bindParam(':titre',$titre);
@@ -18,6 +20,17 @@ class recettesController {
         $ajoutOk = $requete->execute();
 
         if($ajoutOk){
+            if ($image) {
+                $id = $_GET['id'] ?? $pdo->lastInsertId();
+                $extension = pathinfo($image['name'], PATHINFO_EXTENSION);
+                $filename = $id . '.' . $extension;
+                move_uploaded_file($image['tmp_name'], 'upload/' . $filename);
+        
+                $query = $pdo->prepare('UPDATE recettes SET image = :image WHERE id = :id');
+                $query->bindValue(':image', $filename, PDO::PARAM_STR);
+                $query->bindValue(':id', $id, PDO::PARAM_INT);
+                $query->execute();
+              }
             require_once(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'Recette'.DIRECTORY_SEPARATOR.'enregistrer.php');
         }else{
             echo "Erreur lors de l'enregistrement de la recette";
