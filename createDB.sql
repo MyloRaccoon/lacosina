@@ -1,3 +1,4 @@
+-- Active: 1730983178899@@127.0.0.1@3306@lacosina
 CREATE DATABASE lacosina;
 
 CREATE TABLE recettes(
@@ -13,5 +14,5 @@ CREATE Table contact (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(100),
     email VARCHAR(100),
-    description TEXT,
+    description TEXT
 );
