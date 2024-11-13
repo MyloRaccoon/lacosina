@@ -1,4 +1,4 @@
--- Active: 1730983178899@@127.0.0.1@3306@lacosina
+-- Active: 1731488936980@@127.0.0.1@3306@lacosina
 CREATE DATABASE lacosina;
 
 CREATE TABLE recettes(
@@ -16,3 +16,14 @@ CREATE Table contact (
     email VARCHAR(100),
     description TEXT
 );
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100),
+    password VARCHAR(100),
+    mail VARCHAR(100),
+    create_time DATETIME,
+    isAdmin TINYINT(1)
+);
+
+UPDATE users SET isAdmin = 1 WHERE username = "admin";

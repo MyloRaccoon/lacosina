@@ -20,6 +20,18 @@
             <li class="nav-item">
                 <a class="nav-link" href='?c=ajout'>Ajouter une recette</a></li>
         </ul>
+        <?php if (isset($_SESSION['username'])) { ?>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" href='?c=deconnexion'>Déconnexion</a></li>
+        <?php } else { ?>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" href='?c=inscription'>Inscription</a></li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" href='?c=connexion'>Connexion</a></li>
+            </ul>
+        <?php } ?>
     </nav>
     <div class="container w-75 m-auto">
 </head>

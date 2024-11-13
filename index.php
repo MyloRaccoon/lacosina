@@ -1,4 +1,5 @@
 <?php
+session_start();
 
     //connexion à la base de données
 require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Models'.DIRECTORY_SEPARATOR.'connectDb.php');
@@ -9,6 +10,7 @@ require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Views'.DIREC
 
 require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'recettesController.php');
 require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'contactController.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'userController.php');
 
 if (isset($_GET['c'])) {
     $controller = $_GET['c'];
@@ -17,6 +19,7 @@ if (isset($_GET['c'])) {
 }
 $recetteController = new recettesController();
 $contactController = new ContactController();
+$userController = new UserController();
 // Switch pour exécuter les contrôleurs en fonction du paramètre
 switch ($controller) {
     case 'accueil':
@@ -46,6 +49,21 @@ switch ($controller) {
         break;
     case 'modifier':
         $recetteController->modifier($pdo, $_GET['id']);
+        break;
+    case 'inscription':
+        $userController->inscription();
+        break;
+    case 'inscrire':
+        $userController->enregistrer($pdo);
+        break;
+    case 'connexion':
+        $userController->connexion();
+        break;
+    case 'connecter':
+        $userController->verifieConnexion($pdo);
+        break;
+    case 'deconnexion':
+        $userController->deconnexion();
         break;
     default:
         echo "Contrôleur $controller non trouvé.";

@@ -19,4 +19,4 @@
     <a href="?page=accueil" class="btn btn-primary">Retour à l'accueil</a>
 </body>
 
-<script src="src/Views/js/front.js"></script>
+<script src="src/Views/js/recipes.js"></script>
