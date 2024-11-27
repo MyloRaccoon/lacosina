@@ -48,6 +48,7 @@ class UserController {
                 $_SESSION['id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['mail'] = $user['mail'];
+                $_SESSION['isAdmin'] = $user['isAdmin'];
                 echo "<script>window.location.href = '/lacosina/';</script>";
             } else {
                 require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'connexionEchec.php';
@@ -57,5 +58,12 @@ class UserController {
     function deconnexion() {
         session_destroy();
         echo "<script>window.location.href = '/lacosina/';</script>";
+    }
+    function afficherProfil($pdo, $id) {
+        $requeteUsername = $pdo->prepare('SELECT * FROM users WHERE id = :id');
+        $requeteUsername->bindParam(':id', $id);
+        $requeteUsername->execute();
+        $user = $requeteUsername->fetch(PDO::FETCH_ASSOC);
+        require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'profil.php';
     }
 }

@@ -16,7 +16,7 @@
         <?php endforeach; ?>
     </div>
 
-    <a href="?page=accueil" class="btn btn-primary">Retour à l'accueil</a>
+    <a href="?c=accueil" class="btn btn-primary">Retour à l'accueil</a>
 </body>
 
 <script src="src/Views/js/recipes.js"></script>

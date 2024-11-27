@@ -1,4 +1,4 @@
--- Active: 1731488936980@@127.0.0.1@3306@lacosina
+-- Active: 1732698571854@@127.0.0.1@3306@lacosina
 CREATE DATABASE lacosina;
 
 CREATE TABLE recettes(

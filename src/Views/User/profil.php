@@ -11,7 +11,7 @@
 <hr>
 <div id='boutons'>
     <button id="bouton_modifier_profil" class="btn btn-primary d-none">Modifier le profil</button>
-    <a href="?c=home" class="btn btn-primary">Retour à l'acceuil</a>
+    <a href="?c=accueil" class="btn btn-primary">Retour à l'acceuil</a>
 </div>
 
-<script src="src/Views/js/recipes.js"></script>
+<script src="src/Views/js/users.js"></script>

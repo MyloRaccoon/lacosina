@@ -17,15 +17,24 @@
                 <a class="nav-link" href='?c=recette'>Recettes</a></li>
             <li class="nav-item">
                 <a class="nav-link" href='?c=contact'>Contact</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href='?c=ajout'>Ajouter une recette</a></li>
         </ul>
         <?php if (isset($_SESSION['username'])) { ?>
-            <ul class="navbar-nav">
+            <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="?c=profil" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                Bienvenue <?php echo $_SESSION['username'] ?>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="?c=profil">Mon profil</a></li>
+                <?php if ($_SESSION['isAdmin'] == 1) { ?>
+                    <li><a class="dropdown-item" href='?c=ajout'>Ajouter une recette</a></li>
+                <?php } ?>
+            </ul>
+            </div>
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="btn btn-outline-dark" href='?c=deconnexion'>Déconnexion</a></li>
         <?php } else { ?>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="btn btn-outline-dark" href='?c=inscription'>Inscription</a></li>
                 <li class="nav-item">

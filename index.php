@@ -65,6 +65,9 @@ switch ($controller) {
     case 'deconnexion':
         $userController->deconnexion();
         break;
+    case 'profil':
+        $userController->afficherProfil($pdo, $_SESSION['id']);
+        break;
     default:
         echo "Contrôleur $controller non trouvé.";
         break;
