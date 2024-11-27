@@ -27,3 +27,12 @@ CREATE TABLE users (
 );
 
 UPDATE users SET isAdmin = 1 WHERE username = "admin";
+
+CREATE TABLE favoris (
+    id SERIAL PRIMARY KEY,
+    recette_id INT,
+    user_id INT,
+    create_time DATETIME,
+    FOREIGN KEY (recette_id) REFERENCES recettes(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

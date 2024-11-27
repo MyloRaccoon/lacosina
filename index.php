@@ -5,12 +5,15 @@ session_start();
 require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Models'.DIRECTORY_SEPARATOR.'connectDb.php');
 
     // ajout de l'en tête
-require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'header.php');
+if (!isset($_GET['x']))
+    require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'header.php');
+
 
 
 require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'recettesController.php');
 require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'contactController.php');
 require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'userController.php');
+require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.'favoriController.php');
 
 if (isset($_GET['c'])) {
     $controller = $_GET['c'];
@@ -20,6 +23,7 @@ if (isset($_GET['c'])) {
 $recetteController = new recettesController();
 $contactController = new ContactController();
 $userController = new UserController();
+$favorisController = new FavoriController();
 // Switch pour exécuter les contrôleurs en fonction du paramètre
 switch ($controller) {
     case 'accueil':
@@ -68,9 +72,16 @@ switch ($controller) {
     case 'profil':
         $userController->afficherProfil($pdo, $_SESSION['id']);
         break;
+    case 'ajoutFavori':
+        $favorisController->ajouter($pdo, $_SESSION['id'], $_GET['id']);
+        break;
+    case 'favoris':
+        $favorisController->get_favoris($pdo, $_SESSION['id']);
+        break;
     default:
         echo "Contrôleur $controller non trouvé.";
         break;
 }
 // ajout du pied de page
-require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'footer.php');
+if (!isset($_GET['x']))
+    require_once(__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'footer.php');

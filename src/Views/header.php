@@ -25,6 +25,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li><a class="dropdown-item" href="?c=profil">Mon profil</a></li>
+                <li><a class="dropdown-item" href="?c=favoris">Mes favoris</a></li>
                 <?php if ($_SESSION['isAdmin'] == 1) { ?>
                     <li><a class="dropdown-item" href='?c=ajout'>Ajouter une recette</a></li>
                 <?php } ?>

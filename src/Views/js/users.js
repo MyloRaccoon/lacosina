@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     //selection du bouton
     let modifier_profil = document.getElementById("bouton_modifier_profil");
 
+    let divFavoris = document.getElementById('favoris');
+    fetch("?c=getFavoris&x&id="+id_user);
+
     //ajoute un écouteur d'évènement pour afficher le nouton de modification lorsque le contenu du profil est modifié
     profil_username.addEventListener('input', (event) => {
         modifier_profil.classList.remove('d-none'); //affiche le bouton de modif
