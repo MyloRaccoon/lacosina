@@ -10,31 +10,61 @@ class FavoriController {
         return $requete->fetch();
     }
 
-    function ajouter($pdo, $id_user, $id_recette) {
-    
-        if (!self::is_in_favoris($pdo, $id_user, $id_recette)) {
-            //l'utilisateur n'a pas déjà ajouté cette recette
-            $requete = $pdo->prepare("INSERT INTO favoris (user_id, recette_id, create_time) VALUES (:user_id, :recette_id, NOW())");
-            $requete->bindParam(':user_id', $id_user);
-            $requete->bindParam(':recette_id', $id_recette);
+    function ajouter($pdo, $id_user, $id_recette, $global) {
 
-            $ok = $requete->execute();
+        $requete = $pdo->prepare("INSERT INTO favoris (user_id, recette_id, create_time) VALUES (:user_id, :recette_id, NOW())");
+        $requete->bindParam(':user_id', $id_user);
+        $requete->bindParam(':recette_id', $id_recette);
 
-            if($ok){
-                require_once(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'Favoris'.DIRECTORY_SEPARATOR.'ajoutSucces.php');
-            }else{
-                echo "Erreur lors de l'enregistrement du favori.";
-            }
+        $ok = $requete->execute();
+        if ($ok) {
+            $_SESSION['message'] = ['succes' => 'Recette ajoutée aux favoris'];
         } else {
-            require_once(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'Favoris'.DIRECTORY_SEPARATOR.'ajoutEchec.php');
+            $_SESSION['message'] = ['fail' => "Problème lors de l'ajout aux favoris"];
         }
+        $global->change_view($global->current_view);
     }
 
-    function get_favoris($pdo, $id_user) {
+    function retirer($pdo, $id_user, $id_recette, $global) {
+        $requete = $pdo->prepare('DELETE FROM favoris WHERE recette_id = :id_recette AND user_id = :id_user');
+        $requete->bindParam(':id_user', $id_user);
+        $requete->bindParam(':id_recette', $id_recette);
+
+        $ok = $requete->execute();
+        if ($ok) {
+            $_SESSION['message'] = ['succes' => 'Recette retiré des favoris'];
+        } else {
+            $_SESSION['message'] = ['fail' => "Problème lors du retrait aux favoris"];
+        }
+        $global->change_view($global->current_view);
+    }
+
+    function get_favoris($pdo, $id_user, $global) {
         $requete = $pdo->prepare("SELECT r.* FROM favoris f JOIN recettes r ON f.recette_id = r.id WHERE f.user_id = :user_id");
         $requete->bindParam(":user_id", $id_user);
         $requete->execute();
-        header('Content-Type: application/json');
-        echo json_encode($requete->fetchAll(PDO::FETCH_ASSOC));
+        $recipes = $requete->fetchAll(PDO::FETCH_ASSOC);
+        $global->change_view(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'Favoris'.DIRECTORY_SEPARATOR.'favoris.php');
+        // header('Content-Type: application/json');
+        // echo json_encode($requete->fetchAll(PDO::FETCH_ASSOC));
+    }
+
+    function detail($pdo, $id, $global) {
+        // préparation de la requete d'insertion dans la base de donnée
+        
+        /**@var PDO $pdo**/
+        $requete = $pdo->prepare("SELECT * FROM recettes WHERE id = :id");
+        $requete->bindParam(':id', $id);
+
+        //execution de la requete, recup des données
+        $requete->execute();
+        $recipe = $requete->fetch(PDO::FETCH_ASSOC);
+        if (isset($_SESSION['id'])) {
+            $is_in_favoris = $this->is_in_favoris($pdo, $_SESSION['id'], $id); 
+        } else {
+            $is_in_favoris = false;
+        }
+
+        $global->change_view(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'Favoris'.DIRECTORY_SEPARATOR.'detail.php');
     }
 }

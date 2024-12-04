@@ -44,4 +44,10 @@
         <?php } ?>
     </nav>
     <div class="container w-75 m-auto">
+        <?php if (isset($_SESSION['message'])) : ?>
+            <?php foreach ($_SESSION['message'] as $type => $message) { ?>
+                <div class="alert alert-<?php echo $type; ?>">
+                    <?php echo $message; ?>
+                </div>
+            <?php } endif; unset($_SESSION['message']); ?>
 </head>

@@ -1,0 +1,26 @@
+<main>
+  <h1><?= $recipe['titre'] ?></h1>
+
+  <!-- two cols -->
+  <div class="row">
+    <div class="col-6">
+      <img src="upload/<?= $recipe['image'] ?? "no_image.png" ?>" alt="<?= $recipe['titre'] ?>" class="img-fluid">
+      <a href='?c=favoris' class="btn btn-primary mt-4">Retour à la liste des favoris</a>
+      <?php if (isset($_SESSION['username'])) { ?>
+        <a href="?c=modif&id=<?= $recipe['id'];?>" class="btn btn-primary">Modifier la recette</a>
+        <?php if ($is_in_favoris) { ?>
+          <a href="?c=removeFavori&id=<?php echo $recipe["id"];?>" class="btn btn-primary">Retirer des favoris</a>
+        <?php } else { ?>
+          <a href="?c=ajoutFavori&id=<?php echo $recipe["id"];?>" class="btn btn-primary">Ajouter aux favoris</a>
+        <?php } ?>
+      <?php } ?>
+    </div>
+    <div class="col-6">
+      <p><?= $recipe['description'] ?></p>
+      <p>
+        Auteur : <a href="mailto:<?= $recipe['auteur'] ?>">
+          <?= $recipe['auteur'] ?>
+        </a>
+      </p>
+    </div>
+</main>

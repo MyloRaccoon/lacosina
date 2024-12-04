@@ -2,10 +2,10 @@
 
 class UserController {
 
-    function inscription() {
-        require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'inscription.php';
+    function inscription($global) {
+        $global->change_view(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'inscription.php');
     }
-    function enregistrer($pdo) {
+    function enregistrer($pdo, $global) {
         $username = $_POST['username'];
         $mail = $_POST['mail'];
         $pwd = $_POST['pwd'];
@@ -22,15 +22,15 @@ class UserController {
         $ajoutOk = $requete->execute();
 
         if($ajoutOk){
-            require_once(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'enregistrement.php');
+            $global->change_view(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'enregistrement.php');
         }else{
             echo "Erreur lors de l'enregistrement de l'utilisateur.";
         }
     }
-    function connexion() {
-        require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'connexion.php';
+    function connexion($global) {
+        $global->change_view(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'connexion.php');
     }
-    function verifieConnexion($pdo) {
+    function verifieConnexion($pdo, $global) {
         $username = $_POST['username'];
         $pwd = $_POST['pwd'];
 
@@ -40,7 +40,7 @@ class UserController {
         $user = $requeteUsername->fetch(PDO::FETCH_ASSOC);
 
         if (!$user) {
-            require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'connexionEchec.php';
+            $global->change_view( __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Views'.DIRECTORY_SEPARATOR.'User'.DIRECTORY_SEPARATOR.'connexionEchec.php');
         } else {
             $pwdHash = $user['password'];
 

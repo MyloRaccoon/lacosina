@@ -8,7 +8,11 @@
       <a href='?c=recette' class="btn btn-primary mt-4">Retour à la liste des recettes</a>
       <?php if (isset($_SESSION['username'])) { ?>
         <a href="?c=modif&id=<?= $recipe['id'];?>" class="btn btn-primary">Modifier la recette</a>
-        <a href="?c=ajoutFavori&id=<?php echo $recipe["id"];?>" class="btn btn-primary">Ajouter aux favoris</a>
+        <?php if ($is_in_favoris) { ?>
+          <a href="?c=removeFavori&id=<?php echo $recipe["id"];?>" class="btn btn-primary">Retirer des favoris</a>
+        <?php } else { ?>
+          <a href="?c=ajoutFavori&id=<?php echo $recipe["id"];?>" class="btn btn-primary">Ajouter aux favoris</a>
+        <?php } ?>
       <?php } ?>
     </div>
     <div class="col-6">
